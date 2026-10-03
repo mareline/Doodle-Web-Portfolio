@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Set these in Netlify → Site configuration → Environment variables (never commit them):
+#   NOTES_ADMIN_KEY  long random password for /admin.html (16+ characters)
+#   NOTES_SALT       any random string; used to anonymise visitor IPs for rate limiting

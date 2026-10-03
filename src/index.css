@@ -1,0 +1,307 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Archivo", "Arial Black", sans-serif;
+  --font-nav: "Orbitron", "Arial", sans-serif;
+  --font-script: "Allura", "Brush Script MT", cursive;
+  --font-hand: "Caveat", "Comic Sans MS", cursive;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --color-ink: #1a1a1a;
+  --color-paper: #c9c8c5;
+  --color-card: #f3f0e8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  /* Your paper scan on top, then a generated paper grain, then flat grey — so it always looks like paper. */
+  background:
+    url("/images/paper-texture.jpg") center top / 900px auto repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    var(--color-paper);
+}
+
+/* Extra-wide letterforms used for PORTFOLIO / ABOUT ME */
+.text-wide {
+  font-stretch: 125%;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- Handmade bits ---------- */
+
+/* Wobbly, drawn-by-hand box outline */
+.sketch-border {
+  border: 2.5px solid var(--color-ink);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+/* Strip of washi tape stuck on top of an element */
+.taped::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: -12px;
+  left: 50%;
+  width: 92px;
+  height: 24px;
+  translate: -50% 0;
+  rotate: -3deg;
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.28) 0 6px, transparent 6px 12px),
+    rgb(214 206 186 / 0.8);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+  clip-path: polygon(0 12%, 4% 0, 96% 6%, 100% 0, 97% 50%, 100% 100%, 4% 94%, 0 100%, 3% 50%);
+}
+
+/* Hand-drawn lines that draw themselves (SVG paths with pathLength="1") */
+.ink-line path {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.scribble path {
+  transition: stroke-dashoffset 900ms ease 300ms;
+}
+.is-visible .scribble path {
+  stroke-dashoffset: 0;
+}
+.squiggle path {
+  stroke-width: 2;
+  transition: stroke-dashoffset 350ms ease;
+}
+a:hover .squiggle path,
+a:focus-visible .squiggle path {
+  stroke-dashoffset: 0;
+}
+
+.paper-3d .divider-fallback {
+  visibility: hidden;
+}
+
+/* "Pasted onto the page" scroll reveal */
+.reveal {
+  opacity: 0;
+  translate: 0 24px;
+  rotate: -1deg;
+  transition: opacity 700ms ease, translate 700ms cubic-bezier(0.2, 0.8, 0.2, 1), rotate 700ms ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  translate: 0 0;
+  rotate: 0deg;
+}
+
+/* Hero intro: name is "written", rules are "drawn" */
+.write-on {
+  animation: write-on 1.6s cubic-bezier(0.5, 0, 0.3, 1) both;
+}
+@keyframes write-on {
+  from { clip-path: inset(-20% 100% -20% 0); }
+  to { clip-path: inset(-20% 0 -20% 0); }
+}
+.draw-line {
+  transform-origin: left center;
+  animation: draw-line 900ms ease-out both;
+}
+@keyframes draw-line {
+  from { scale: 0 1; }
+  to { scale: 1 1; }
+}
+
+/* ---------- Doodle motion ---------- */
+
+/* Drifts with the cursor; --px/--py come from useParallax, --depth from <Doodle depth> */
+.parallax {
+  transform: translate3d(calc(var(--px, 0) * var(--depth, 0) * 1px), calc(var(--py, 0) * var(--depth, 0) * 1px), 0);
+  transition: transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.doodle-float {
+  animation: doodle-float 4s ease-in-out infinite;
+}
+@keyframes doodle-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-2deg); }
+}
+
+/* "Line boil": the outline jitters like a hand-drawn animation frame (filters live in <SketchFilters>) */
+.doodle-boil {
+  animation: boil 450ms steps(1) infinite;
+}
+.doodle-float.doodle-boil {
+  animation: doodle-float 4s ease-in-out infinite, boil 450ms steps(1) infinite;
+}
+@keyframes boil {
+  0% { filter: url(#boil-0); }
+  33% { filter: url(#boil-1); }
+  66% { filter: url(#boil-2); }
+}
+
+/* Plants swaying in a breeze */
+.doodle-sway {
+  transform-origin: 8% 92%;
+  animation: sway 7s ease-in-out infinite;
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(1.4deg); }
+}
+
+.doodle-pop {
+  transition: rotate 200ms ease, scale 200ms ease;
+}
+.doodle-pop:hover {
+  rotate: -6deg;
+  scale: 1.06;
+}
+
+/* Click-sparkle particles */
+.sparkle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 12px;
+  line-height: 1;
+  animation: sparkle-out 700ms ease-out forwards;
+}
+@keyframes sparkle-out {
+  from { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0) scale(1); opacity: 1; }
+  to { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-42px) scale(0.3); opacity: 0; }
+}
+
+/* Dev-only marker for an image that hasn't been added yet */
+.doodle-missing {
+  display: grid;
+  place-items: center;
+  min-height: 3rem;
+  padding: 0.25rem;
+  border: 1.5px dashed rgb(26 26 26 / 0.4);
+  font: 10px/1.2 ui-monospace, monospace;
+  text-align: center;
+  color: rgb(26 26 26 / 0.6);
+}
+
+/* ---------- "say hi!" note ---------- */
+
+.lined-input {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-bottom: 1.5px dashed rgb(26 26 26 / 0.35);
+  background: transparent;
+  padding: 0.15rem 0;
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  color: var(--color-ink);
+  outline: none;
+}
+.lined-input::placeholder {
+  color: rgb(26 26 26 / 0.45);
+}
+.lined-input:focus-visible {
+  border-bottom-style: solid;
+  border-color: var(--color-ink);
+}
+/* Notebook lines inside the message box */
+.lined-textarea {
+  resize: none;
+  border-bottom: 0;
+  line-height: 1.9rem;
+  padding: 0;
+  background-image: repeating-linear-gradient(transparent 0 calc(1.9rem - 1px), rgb(26 26 26 / 0.18) calc(1.9rem - 1px) 1.9rem);
+}
+.lined-textarea:focus-visible {
+  outline: 2px dashed rgb(26 26 26 / 0.5);
+  outline-offset: 4px;
+}
+
+.pencil-wiggle {
+  transform-origin: 20% 80%;
+  animation: pencil-wiggle 1.6s ease-in-out infinite;
+}
+@keyframes pencil-wiggle {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: -12deg; }
+  50% { rotate: 6deg; translate: 2px 0; }
+  75% { rotate: -6deg; }
+}
+
+/* On send: the note folds up… */
+.note-fold {
+  animation: note-fold 450ms ease-in forwards;
+}
+@keyframes note-fold {
+  to { scale: 0.2 0.05; rotate: -8deg; opacity: 0; }
+}
+/* …and a paper airplane swoops off */
+.plane-fly {
+  animation: plane-fly 1.5s cubic-bezier(0.45, 0, 0.55, 1) 250ms both;
+}
+@keyframes plane-fly {
+  0% { transform: translate(0, 0) rotate(0deg) scale(0.4); opacity: 0; }
+  12% { transform: translate(0, 0) rotate(-6deg) scale(1); opacity: 1; }
+  45% { transform: translate(-40px, -90px) rotate(-35deg) scale(1); }
+  70% { transform: translate(60px, -150px) rotate(10deg) scale(0.9); opacity: 1; }
+  100% { transform: translate(320px, -260px) rotate(-15deg) scale(0.6); opacity: 0; }
+}
+
+/* ---------- Portfolio desktop ---------- */
+
+.desk-icon-art {
+  transition: translate 200ms ease;
+}
+.desk-icon:hover .desk-icon-art,
+.desk-icon:focus-visible .desk-icon-art {
+  translate: 0 -4px;
+  animation: boil 450ms steps(1) infinite;
+}
+/* The folder's front flap tips open on hover */
+.folder-front {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  transition: transform 250ms ease;
+}
+.desk-icon:hover .folder-front,
+.desk-icon:focus-visible .folder-front {
+  transform: skewX(-8deg) scaleY(0.88);
+}
+.desk-window[open] {
+  animation: window-open 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes window-open {
+  from { scale: 0.85; opacity: 0; }
+  to { scale: 1; opacity: 1; }
+}
+
+/* Messages pop onto the wall one after another */
+.note-pop {
+  animation: note-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.reveal:not(.is-visible) .note-pop {
+  animation-play-state: paused;
+}
+@keyframes note-pop {
+  from { scale: 0.4; opacity: 0; translate: 0 20px; }
+  to { scale: 1; opacity: 1; translate: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pencil-wiggle, .note-pop, .desk-window[open] { animation: none; }
+  .desk-icon:hover .desk-icon-art, .desk-icon:focus-visible .desk-icon-art { animation: none; translate: none; }
+  html { scroll-behavior: auto; }
+  .doodle-float, .doodle-boil, .doodle-sway, .write-on, .draw-line, .sparkle { animation: none; }
+  .sparkle { display: none; }
+  .doodle-pop:hover { rotate: none; scale: none; }
+  .reveal { opacity: 1; translate: none; rotate: none; transition: none; }
+  .scribble path { stroke-dashoffset: 0; }
+  .ink-line path { transition: none; }
+  .parallax { transform: none; }
+}
