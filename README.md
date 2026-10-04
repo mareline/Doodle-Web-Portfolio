@@ -12,7 +12,7 @@ A hand-drawn, paper-and-ink portfolio. I wanted a portfolio that feels like flip
 
 ## Built with
 
-React 19 · Vite · Tailwind CSS v4 · Three.js · Netlify (hosting, serverless functions, Blobs storage) · Node's built-in test runner
+React 19 · Vite · Tailwind CSS v4 · Three.js · Vercel (hosting, serverless functions) · Upstash Redis · Node's built-in test runner
 
 - **Libraries:** [Three.js](https://threejs.org), [React](https://react.dev) and [Tailwind CSS](https://tailwindcss.com) (MIT License).
 

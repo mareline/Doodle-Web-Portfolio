@@ -7,7 +7,7 @@ export const PROJECTS = [
     type: "Web · 3D · 2026",
     summary:
       "The site you’re on! A sketchbook-style portfolio featuring my own drawings, pencil notes that erase as you scroll, an interactive cat, and a moderated message board with rate limiting and spam protection.",
-    tags: ["React", "Tailwind", "Netlify Functions"],
+    tags: ["React", "Tailwind", "Vercel Functions"],
     // href: "https://github.com/mareline/<repo-name>", // TODO: add once the repo is on GitHub
   },
   {

@@ -1,7 +1,7 @@
-// Run with `npm test`. Exercises the guestbook against an in-memory stand-in for Netlify Blobs.
+// Run with `npm test`. Exercises the guestbook against an in-memory stand-in for the Redis store.
 import assert from "node:assert/strict";
 import { beforeEach, test } from "node:test";
-import { createAdminHandler, createNotesHandler, LIMITS } from "../netlify/lib/guestbook.mjs";
+import { createAdminHandler, createNotesHandler, LIMITS } from "../lib/guestbook.mjs";
 
 function memoryStore() {
   const data = new Map();
@@ -17,8 +17,8 @@ function memoryStore() {
       data.set(key, String(value));
       return { modified: true };
     },
-    async setJSON(key, value) {
-      return this.set(key, JSON.stringify(value));
+    async setJSON(key, value, options) {
+      return this.set(key, JSON.stringify(value), options);
     },
     async delete(key) {
       data.delete(key);
