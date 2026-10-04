@@ -9,18 +9,21 @@ import { VOLUNTEER, WORK } from "../data/work";
 const groupHeading = "font-nav text-sm tracking-widest uppercase";
 
 // One role on its own white card. Click the role/company to open what I did and what I learned.
-function JobCard({ job }) {
+function JobCard({ job, onToggle }) {
   const [open, setOpen] = useState(false);
   const hasDetails =
     job.highlights?.length > 0 || job.learned?.length > 0 || job.note;
 
   return (
-    <div className="bio-frame mt-2 px-4 py-3">
+    <div className="bio-frame paper-hover mt-2 px-4 py-3">
       <button
         type="button"
         aria-expanded={open}
         disabled={!hasDetails}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          setOpen((v) => !v);
+          onToggle?.();
+        }}
         className="group block w-full cursor-pointer bg-transparent p-0 text-left disabled:cursor-default"
       >
         <span className="block text-base leading-snug font-bold group-hover:underline group-hover:underline-offset-4">
@@ -66,7 +69,7 @@ function JobCard({ job }) {
 
 // A horizontal, hand-drawn timeline: most recent on the left, oldest on the right.
 // On narrow screens it scrolls sideways.
-function Timeline({ entries }) {
+function Timeline({ entries, onToggle }) {
   return (
     <DoodleScroller className="-mx-5 sm:-mx-10 lg:mx-0">
       <div className="px-5 pb-2 sm:px-10 lg:px-0">
@@ -108,7 +111,7 @@ function Timeline({ entries }) {
                 aria-hidden="true"
                 className="relative z-10 my-2 block h-4 w-4 rounded-full border-[2.5px] border-ink bg-card"
               />
-              <JobCard job={job} />
+              <JobCard job={job} onToggle={onToggle} />
             </Reveal>
           ))}
         </ol>
@@ -118,16 +121,21 @@ function Timeline({ entries }) {
 }
 
 export default function Work({ onPop }) {
+  // Each time a role is opened or closed, the stars and sparkles do a little hop-and-spin
+  const [hops, setHops] = useState(0);
+  const hop = () => setHops((n) => n + 1);
+
   const groups = [
     { title: "Experience", entries: WORK },
     { title: "Volunteer & community", entries: VOLUNTEER },
   ].filter((group) => group.entries.length > 0);
 
   return (
-    <section id="work" className="relative scroll-mt-32">
+    <section id="work" data-hop={hops === 0 ? undefined : hops % 2 ? "a" : "b"} className="relative scroll-mt-32">
       {/* sparkles and stars scattered around the page */}
       <Doodle
         name="stars"
+        hop
         onPop={onPop}
         float
         depth={6}
@@ -159,9 +167,9 @@ export default function Work({ onPop }) {
       ) : (
         groups.map((group, i) => (
           <div key={group.title} className={i === 0 ? "mt-8" : "mt-10"}>
-            <div className="flex items-baseline gap-4">
+            <div className="flex flex-wrap items-baseline gap-x-4">
               <h3 className={groupHeading}>{group.title}</h3>
-              <span className="font-hand text-lg whitespace-nowrap opacity-60">
+              <span className="font-hand text-lg opacity-60 sm:whitespace-nowrap">
                 newest → oldest · tap a role for more
               </span>
               {i === 1 && (
@@ -175,7 +183,7 @@ export default function Work({ onPop }) {
               )}
             </div>
             <div className="mt-3">
-              <Timeline entries={group.entries} />
+              <Timeline entries={group.entries} onToggle={hop} />
             </div>
           </div>
         ))

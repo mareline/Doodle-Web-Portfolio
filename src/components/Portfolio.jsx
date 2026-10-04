@@ -43,7 +43,7 @@ function DesktopIcon({ item, tilt, onOpen }) {
     <button
       type="button"
       onClick={() => onOpen(item)}
-      className={`desk-icon group flex w-28 cursor-pointer xl:w-36 flex-col items-center gap-2 rounded-lg p-2 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink focus-visible:outline-dashed ${tilt}`}
+      className={`desk-icon paper-hover-art group flex w-28 cursor-pointer xl:w-36 flex-col items-center gap-2 rounded-lg p-2 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink focus-visible:outline-dashed ${tilt}`}
     >
       <span className="w-20">
         <FolderIcon />
@@ -69,7 +69,7 @@ function Desktop({ items, empty, onOpen }) {
           <li key={item.href ?? item.title} className={`relative ${FOLDER_NUDGE[i % FOLDER_NUDGE.length]}`}>
             {/* The note always sits above the newest project (first in projects.js) and points down at it */}
             {i === 0 && (
-              <p className="absolute bottom-full left-1/2 mb-1 flex -translate-x-[15%] items-end gap-1 font-hand text-xl whitespace-nowrap opacity-80">
+              <p className="absolute bottom-full left-1/2 mb-1 flex -translate-x-[15%] items-end gap-1 font-hand text-xl whitespace-nowrap opacity-80 max-sm:w-44 max-sm:whitespace-normal">
                 <svg aria-hidden="true" viewBox="0 0 50 50" className="h-10 w-10 shrink-0 fill-none stroke-ink" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M44 6 C 22 6, 12 18, 12 42" />
                   <path d="M12 42 L 5 32 M12 42 L 20 33" />
@@ -95,7 +95,7 @@ function PostCard({ post, tilt }) {
       href={post.href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`taped sketch-border relative block h-full bg-card text-ink no-underline shadow-[3px_4px_0_rgba(0,0,0,0.08)] transition-[rotate,translate] duration-300 hover:-translate-y-1 hover:rotate-0 focus-visible:rotate-0 ${tilt}`}
+      className={`taped sketch-border paper-hover relative block h-full bg-card text-ink no-underline shadow-[3px_4px_0_rgba(0,0,0,0.08)] ${tilt}`}
     >
       {post.image && (
         <div className="m-3 mb-0 aspect-[4/3] overflow-hidden border-2 border-ink bg-ink/10">

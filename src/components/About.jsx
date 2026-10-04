@@ -61,7 +61,7 @@ const TOOLBOX = [
     label: "Build",
     tools: [
       { name: "React", detail: "Interactive front ends, including this sketchbook site." },
-      { name: "Three.js", detail: "3D on the web, like the paper that crumples as you scroll." },
+      { name: "Three.js", detail: "3D on the web, like my 2023 3D portfolio." },
       { name: "JavaScript", detail: "The language behind my web projects." },
       { name: "Python", detail: "Scripting, data work, and my 100 Days of Python practice." },
       { name: "FastAPI", detail: "Building lightweight Python APIs." },
@@ -130,7 +130,7 @@ function ProfilePhoto() {
 // Fills the space under the photo: a taped sticky note of what you're up to right now
 function CurrentlyNote() {
   return (
-    <Reveal className="taped sketch-border relative mx-auto mt-6 w-[88%] rotate-2 bg-card px-5 pt-6 pb-4 shadow-[3px_4px_0_rgba(0,0,0,0.08)]" delay={200}>
+    <Reveal className="taped sketch-border paper-hover relative mx-auto mt-6 w-[88%] rotate-2 bg-card px-5 pt-6 pb-4 shadow-[3px_4px_0_rgba(0,0,0,0.08)]" delay={200}>
       <p className="font-hand text-2xl leading-none">currently…</p>
       <ul className="mt-2 space-y-1 font-hand text-lg leading-snug">
         <li>✎ pursuing my MBA in Business Data Analytics at FIU</li>
@@ -183,7 +183,7 @@ function Toolbox() {
   }, [open]);
 
   return (
-    <Reveal className="notepad mt-6 px-5 pt-6 pb-4 sm:pl-14 sm:pr-6" delay={150}>
+    <Reveal className="notepad paper-hover-art mt-6 px-5 pt-6 pb-4 sm:pl-14 sm:pr-6" delay={150}>
       <div ref={boxRef}>
         <div className="flex items-baseline justify-between gap-4">
           <h3 className="font-hand text-2xl leading-none">my toolbox</h3>
@@ -210,7 +210,7 @@ function Toolbox() {
                     {isOpen && (
                       <span
                         role="tooltip"
-                        className="sketch-border absolute bottom-full left-1/2 z-30 mb-2 block w-64 -translate-x-1/2 bg-card px-3 py-2 text-left text-[13px] leading-snug shadow-[3px_4px_0_rgba(0,0,0,0.12)]"
+                        className="sketch-border absolute bottom-full left-1/2 z-30 mb-2 block w-64 -translate-x-1/2 max-sm:fixed max-sm:inset-x-4 max-sm:top-auto max-sm:bottom-6 max-sm:mb-0 max-sm:w-auto max-sm:translate-x-0 bg-card px-3 py-2 text-left text-[13px] leading-snug shadow-[3px_4px_0_rgba(0,0,0,0.12)]"
                       >
                         <span className="block font-hand text-lg leading-none">{tool.name}</span>
                         <span className="mt-1 block">{tool.detail}</span>
@@ -247,7 +247,7 @@ export default function About({ onPop }) {
 
         <div>
           {/* Bio inside a hand-drawn double frame, with a lily, a coffee and the cat */}
-          <div className="bio-frame relative mt-4 px-6 pt-9 pb-8 sm:px-8">
+          <div className="bio-frame paper-hover relative mt-4 px-6 pt-9 pb-8 sm:px-8">
             {/* Top decoration: two swirl stickers holding the paper up, and a little pencil flourish */}
             <Doodle name="spiral" onPop={onPop} depth={2} className="absolute -top-5 left-[6%] z-20 w-11 -rotate-12 drop-shadow-[1px_2px_0_rgba(0,0,0,0.15)]" />
             <Doodle name="spiral" onPop={onPop} depth={2} className="absolute -top-5 right-[14%] z-20 w-11 rotate-12 drop-shadow-[1px_2px_0_rgba(0,0,0,0.15)]" />
@@ -260,7 +260,7 @@ export default function About({ onPop }) {
                 <path d="M2 5 Q 12 1, 22 5 T 42 5 T 58 4" />
               </svg>
             </p>
-            <Doodle name="liliesDrip" sway depth={-3} className="hang absolute -top-20 -right-8 z-20 w-20 rotate-6 sm:w-24 lg:-right-14 lg:w-28" />
+            <Doodle name="liliesDrip" sway depth={-3} className="hang absolute -top-4 -right-8 z-20 w-20 rotate-6 sm:w-24 lg:-right-14 lg:w-28" />
 
             <Reveal className="text-[14.5px] leading-relaxed" delay={150}>
               <p className="pr-8">

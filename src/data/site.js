@@ -6,7 +6,7 @@ export const SITE = {
   emailParts: ["mrami204", "fiu.edu"],
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/mareline" },
-    { label: "Substack", href: SUBSTACK_URL },
+    { label: "Substack", href: "https://substack.com/@marelineramirez/posts"},
     { label: "GitHub", href: "https://github.com/mareline" },
   ],
 };

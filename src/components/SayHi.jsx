@@ -105,7 +105,7 @@ function MessageForm({ onSent }) {
       <form
         onSubmit={handleSubmit}
         noValidate
-        className={`taped sketch-border relative rotate-1 bg-card px-5 pt-7 pb-4 shadow-[3px_4px_0_rgba(0,0,0,0.08)] ${
+        className={`taped sketch-border paper-hover relative rotate-1 bg-card px-5 pt-7 pb-4 shadow-[3px_4px_0_rgba(0,0,0,0.08)] ${
           status === "flying" ? "note-fold" : ""
         }`}
       >
@@ -155,7 +155,7 @@ function MessageForm({ onSent }) {
             disabled={status === "sending" || status === "flying"}
             className="sketch-border cursor-pointer bg-paper/40 px-4 py-0.5 font-hand text-xl transition-transform hover:-rotate-3 disabled:cursor-wait disabled:opacity-60"
           >
-            {status === "sending" ? "sending…" : "send ✈"}
+            {status === "sending" ? "sending…" : "send ✈︎"}
           </button>
         </div>
 

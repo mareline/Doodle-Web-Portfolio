@@ -28,7 +28,7 @@ export default function Contact() {
                 title="Opens your email app"
                 className="sketch-border inline-flex items-center gap-2 bg-card px-4 py-1.5 text-ink no-underline shadow-[2px_3px_0_rgba(0,0,0,0.08)] transition-transform hover:-translate-y-0.5 hover:-rotate-1"
               >
-                <span aria-hidden="true">✉</span>
+                <span aria-hidden="true">✉︎</span>
                 email me
               </a>
             </p>
@@ -49,7 +49,7 @@ export default function Contact() {
 
       <footer className="mt-12 text-center">
         <p className="font-hand text-lg opacity-70">
-          made with love on {new Date().getFullYear()} Mareline Ramirez
+          made with love ♡ 
         </p>
       </footer>
     </section>

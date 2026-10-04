@@ -1,7 +1,7 @@
 // Turns the full-size drawings in art/ into small, web-ready copies in public/images/.
 // Runs automatically before `npm run dev` and `npm run build`; only redoes files that changed.
 //   drawings (.png)  → .webp, transparent background kept, resized to the width below
-//   paper-texture    → .jpg, resized for a repeating background
+//   paper-texture    → .webp (lower quality is invisible on a background), resized for the page width
 import { mkdir, readdir, stat } from "node:fs/promises";
 import { basename, extname, join } from "node:path";
 import sharp from "sharp";
@@ -32,12 +32,12 @@ async function main() {
   for (const file of files) {
     const name = basename(file, extname(file));
     const isTexture = name === "paper-texture";
-    const out = join(OUT_DIR, `${name}.${isTexture ? "jpg" : "webp"}`);
+    const out = join(OUT_DIR, `${name}.webp`);
     const src = join(SOURCE_DIR, file);
     if (!(await newerThan(src, out))) continue;
 
     const image = sharp(src).rotate().resize({ width: WIDTHS[name] ?? DEFAULT_WIDTH, withoutEnlargement: true });
-    await (isTexture ? image.jpeg({ quality: 72, mozjpeg: true }) : image.webp({ quality: 82, alphaQuality: 90 })).toFile(out);
+    await (isTexture ? image.webp({ quality: 55 }) : image.webp({ quality: 82, alphaQuality: 90 })).toFile(out);
 
     const before = Math.round((await stat(src)).size / 1024);
     const after = Math.round((await stat(out)).size / 1024);

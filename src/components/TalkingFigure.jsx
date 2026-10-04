@@ -13,8 +13,8 @@ const LINES = [
   "omg… I need cafecito",
   "are you bored of clicking yet?",
   "thank you!!",
-  "fun fact: my favorite color is purple 💜",
-  "fun fact: I love tea 🍵",
+  "fun fact: my favorite color is purple ♡",
+  "fun fact: I love tea",
   "fun fact: my cat’s name is Miso",
   "fun fact: my other cat’s name is Parmy",
   "Miso and Parmy say hi too",
@@ -42,7 +42,7 @@ const LINES = [
   "a cafecito fixes the rest",
   "you found the talking girl!",
   "this whole site is my sketchbook",
-  "watch the paper crumple when you scroll!",
+  "watch the pencil notes get erased when you scroll!",
   "hire me?",
   "you’re doing amazing sweetie",
   "okay bestie, keep scrolling",
@@ -102,13 +102,13 @@ export default function TalkingFigure({ onPop, className = "" }) {
   return (
     <div className={className}>
       <button type="button" onClick={talk} aria-label="Say hi to the girl" className="block w-full cursor-pointer bg-transparent p-0">
-        <Doodle name="figure" depth={5} className="pointer-events-none w-full" />
+        <Doodle name="figure" priority depth={5} className="pointer-events-none w-full" />
       </button>
       {line && (
         <p
           key={line}
           role="status"
-          className="speech-bubble absolute top-full left-1/2 z-30 mt-3 w-max max-w-[16rem] -translate-x-1/2 bg-card px-4 py-2 text-center font-hand text-lg leading-snug lg:text-xl"
+          className="speech-bubble absolute top-full right-[18%] z-30 mt-3 w-max max-w-[min(16rem,70vw)] sm:right-auto sm:left-1/2 sm:-translate-x-1/2 bg-card px-4 py-2 text-center font-hand text-lg leading-snug lg:text-xl"
         >
           {line}
         </p>

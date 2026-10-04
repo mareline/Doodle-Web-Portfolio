@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { imageUrl } from "../data/images";
 
-// Sideways-scrolling area with a hand-drawn scrollbar: a wiggly pencil track and a doodled star you can drag
+// Sideways-scrolling area with a hand-drawn scrollbar: a wiggly pencil track and your newspaper star you can drag
 // (or click anywhere on the track to jump). Only appears when the content is wider than the screen.
 export default function DoodleScroller({ children, className = "" }) {
   const areaRef = useRef(null);
@@ -81,22 +82,15 @@ export default function DoodleScroller({ children, className = "" }) {
             />
             <path d="M4 4 L4 16 M296 4 L296 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
           </svg>
-          {/* the handle: a doodled star that spins as it rolls along */}
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 40 40"
-            className="absolute top-1/2 h-8 w-8 -translate-x-1/2 -translate-y-1/2 text-ink"
+          {/* the handle: your newspaper star, spinning as it rolls along */}
+          <img
+            src={imageUrl("paperStar")}
+            alt=""
+            draggable={false}
+            className="pointer-events-none absolute top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 object-contain drop-shadow-[1px_2px_0_rgba(0,0,0,0.15)]"
             style={{ left: `${state.progress * 100}%`, rotate: `${state.progress * 360}deg` }}
-          >
-            <path
-              d="M20 3 L24.5 15 L37 15.5 L27 23 L30.5 36 L20 28.5 L9.5 36 L13 23 L3 15.5 L15.5 15 Z"
-              fill="#f3f0e8"
-              stroke="currentColor"
-              strokeWidth="2.4"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="absolute -top-1 right-0 translate-x-full pl-2 font-hand text-base whitespace-nowrap opacity-60">drag me →</span>
+          />
+          <span className="absolute right-0 -bottom-5 font-hand text-base whitespace-nowrap opacity-60">drag me →</span>
         </div>
       )}
     </div>

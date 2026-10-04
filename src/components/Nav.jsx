@@ -54,7 +54,7 @@ export default function Nav({ onPop }) {
       >
         <InkLink href="#about" className={linkClass}>About</InkLink>
         <InkLink href="#work" className={linkClass}>Work</InkLink>
-        <Doodle name="butterfly" onPop={onPop} float depth={3} className="mx-auto w-14 sm:w-20 lg:w-28" />
+        <Doodle name="butterfly" priority onPop={onPop} float depth={3} className="mx-auto w-14 sm:w-20 lg:w-28" />
         <InkLink href="#portfolio" className={linkClass}>Portfolio</InkLink>
         <InkLink href="#contact" className={linkClass}>Contact</InkLink>
       </nav>

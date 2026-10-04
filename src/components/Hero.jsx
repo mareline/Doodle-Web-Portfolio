@@ -7,8 +7,8 @@ export default function Hero({ onPop }) {
   return (
     <header className="relative flex justify-center py-14 sm:py-20 lg:py-24">
       <div className="relative w-fit">
-        <Doodle name="paperStar" depth={-5} className="absolute top-[18%] -left-[20%] z-20 w-[32%] -rotate-6" />
-        <Doodle name="stars" onPop={onPop} float depth={8} className="absolute -top-[48%] right-[2%] z-0 w-[16%]" />
+        <Doodle name="paperStar" priority depth={-5} className="absolute top-[18%] -left-[20%] z-20 w-[32%] -rotate-6" />
+        <Doodle name="stars" priority onPop={onPop} float depth={8} className="absolute -top-[48%] right-[2%] z-0 w-[16%]" />
 
         <div className="relative z-10">
           <div className="flex items-end gap-3 text-[clamp(1.6rem,4.8vw,6rem)]">

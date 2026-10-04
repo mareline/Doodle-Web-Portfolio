@@ -6,8 +6,8 @@ export const PROJECTS = [
     title: "Hand-Drawn Portfolio",
     type: "Web · 3D · 2026",
     summary:
-      "The site you’re on! A sketchbook-style portfolio featuring my own drawings, paper that crumples as you scroll (Three.js), and a moderated message board with rate limiting and spam protection.",
-    tags: ["React", "Three.js", "Tailwind", "Netlify Functions"],
+      "The site you’re on! A sketchbook-style portfolio featuring my own drawings, pencil notes that erase as you scroll, an interactive cat, and a moderated message board with rate limiting and spam protection.",
+    tags: ["React", "Tailwind", "Netlify Functions"],
     // href: "https://github.com/mareline/<repo-name>", // TODO: add once the repo is on GitHub
   },
   {

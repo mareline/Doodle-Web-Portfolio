@@ -15,8 +15,7 @@ const SOUNDS = [
 const MOODS = ["happy", "surprised", "sleepy", "wink"];
 const PUPIL_RANGE = 2.6; // how far the pupils can look around, in drawing units
 
-// A sketched cat whose eyes follow your cursor. Click (or press Enter) to pet it: she says something,
-// pulls a face (happy, surprised, sleepy or a wink) and tells the parent via onPet so she can move around.
+
 export default function Cat({ className = "", onPet }) {
   const svgRef = useRef(null);
   const leftPupil = useRef(null);
@@ -230,7 +229,7 @@ export default function Cat({ className = "", onPet }) {
             <path
               d="M44 60 Q 48 58 52 60 M88 60 Q 92 58 96 60"
               fill="none"
-              stroke="#c26d8a"
+              stroke="#9a9a9a"
               strokeWidth="3"
               strokeLinecap="round"
               opacity="0.7"
