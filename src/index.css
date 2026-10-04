@@ -138,9 +138,50 @@ a:focus-visible .squiggle path {
   opacity: 1;
 }
 
-/* The flat paper strip hides only while its 3D copy is crumpling */
-.paper-3d [data-crumpling] .divider-paper {
-  visibility: hidden;
+/* Paper scrap ripped on all four sides, with ruled lines and a margin */
+.torn-paper {
+  rotate: -1deg;
+  filter: drop-shadow(2px 4px 0 rgb(0 0 0 / 0.1));
+}
+.torn-paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 2.4rem, rgb(178 64 64 / 0.35) 2.4rem, rgb(178 64 64 / 0.35) calc(2.4rem + 1.5px), transparent calc(2.4rem + 1.5px)),
+    repeating-linear-gradient(transparent 0 calc(1.6rem - 1px), rgb(70 100 140 / 0.16) calc(1.6rem - 1px) 1.6rem),
+    #f6f3ea;
+  clip-path: polygon(0.0% 5px, 2.9% 1px, 5.9% 7px, 8.8% 2px, 11.8% 6px, 14.7% 0px, 17.6% 8px, 20.6% 3px, 23.5% 6px, 26.5% 1px, 29.4% 5px, 32.4% 1px, 35.3% 7px, 38.2% 2px, 41.2% 6px, 44.1% 0px, 47.1% 8px, 50.0% 3px, 52.9% 6px, 55.9% 1px, 58.8% 5px, 61.8% 1px, 64.7% 7px, 67.6% 2px, 70.6% 6px, 73.5% 0px, 76.5% 8px, 79.4% 3px, 82.4% 6px, 85.3% 1px, 88.2% 5px, 91.2% 1px, 94.1% 7px, 97.1% 2px, 100.0% 6px, 100% 30%, calc(100% - 6px) 45%, 100% 60%, calc(100% - 4px) 78%, 100.0% calc(100% - 5px), 97.1% calc(100% - 1px), 94.1% calc(100% - 7px), 91.2% calc(100% - 2px), 88.2% calc(100% - 6px), 85.3% calc(100% - 0px), 82.4% calc(100% - 8px), 79.4% calc(100% - 3px), 76.5% calc(100% - 6px), 73.5% calc(100% - 1px), 70.6% calc(100% - 5px), 67.6% calc(100% - 1px), 64.7% calc(100% - 7px), 61.8% calc(100% - 2px), 58.8% calc(100% - 6px), 55.9% calc(100% - 0px), 52.9% calc(100% - 8px), 50.0% calc(100% - 3px), 47.1% calc(100% - 6px), 44.1% calc(100% - 1px), 41.2% calc(100% - 5px), 38.2% calc(100% - 1px), 35.3% calc(100% - 7px), 32.4% calc(100% - 2px), 29.4% calc(100% - 6px), 26.5% calc(100% - 0px), 23.5% calc(100% - 8px), 20.6% calc(100% - 3px), 17.6% calc(100% - 6px), 14.7% calc(100% - 1px), 11.8% calc(100% - 5px), 8.8% calc(100% - 1px), 5.9% calc(100% - 7px), 2.9% calc(100% - 2px), 0.0% calc(100% - 6px), 0 70%, 5px 55%, 0 40%, 6px 22%);
+}
+
+/* Pencil writing that gets rubbed out left-to-right as --erase goes 0 → 1 */
+.pencil-text {
+  position: relative;
+  color: #4a4a4a;
+  opacity: 0.85;
+  text-shadow: 0 0 0.6px #4a4a4a;
+  -webkit-mask-image: linear-gradient(90deg, transparent calc(var(--erase, 0) * 120% - 20%), #000 calc(var(--erase, 0) * 120%));
+  mask-image: linear-gradient(90deg, transparent calc(var(--erase, 0) * 120% - 20%), #000 calc(var(--erase, 0) * 120%));
+}
+
+/* The eraser sweeps across with the scroll, wobbling as it rubs */
+.eraser {
+  position: absolute;
+  top: 50%;
+  left: calc(8% + var(--erase, 0) * 82%);
+  width: 3.2rem;
+  height: 1.6rem;
+  translate: -50% -50%;
+  rotate: calc(-18deg + sin(var(--erase, 0) * 40rad) * 10deg);
+  border: 2.5px solid var(--color-ink);
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f7f5f0 0 62%, #b9b6ae 62% 100%);
+  box-shadow: 2px 3px 0 rgb(0 0 0 / 0.12);
+  opacity: calc(min(1, var(--erase, 0) * 12) * min(1, (1 - var(--erase, 0)) * 12));
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .eraser { display: none; }
 }
 
 /* "Pasted onto the page" scroll reveal */
@@ -187,19 +228,6 @@ a:focus-visible .squiggle path {
 @keyframes doodle-float {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-3px) rotate(-0.5deg); }
-}
-
-/* "Line boil": the outline jitters like a hand-drawn animation frame (filters live in <SketchFilters>) */
-.doodle-boil {
-  animation: boil 450ms steps(1) infinite;
-}
-.doodle-float.doodle-boil {
-  animation: doodle-float 7s ease-in-out infinite, boil 450ms steps(1) infinite;
-}
-@keyframes boil {
-  0% { filter: url(#boil-0); }
-  33% { filter: url(#boil-1); }
-  66% { filter: url(#boil-2); }
 }
 
 /* Plants swaying in a breeze (.hang swings from the top instead) */
@@ -529,7 +557,7 @@ a:focus-visible .squiggle path {
   .pencil-wiggle, .note-pop, .desk-window[open] { animation: none; }
   .desk-icon:hover .desk-icon-art, .desk-icon:focus-visible .desk-icon-art { animation: none; translate: none; }
   html { scroll-behavior: auto; }
-  .doodle-float, .doodle-boil, .doodle-sway, .write-on, .draw-line, .sparkle { animation: none; }
+  .doodle-float, .doodle-sway, .write-on, .draw-line, .sparkle { animation: none; }
   .sparkle { display: none; }
   .doodle-pop:hover { rotate: none; scale: none; }
   .reveal { opacity: 1; translate: none; rotate: none; transition: none; }
