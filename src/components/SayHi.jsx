@@ -90,8 +90,8 @@ function MessageForm({ onSent }) {
         {result?.status === "approved" ? "posted! ♡" : "sent! thank you ♡"}
         <span className="mt-1 block text-lg leading-snug opacity-80">
           {result?.status === "approved"
-            ? "it’s up on the wall below."
-            : "it’s on the wall below for you now, and everyone will see it once I’ve read and approve it!"}
+            ? "it’s up on the wall!"
+            : "it’s on the wall for you now, and everyone will see it once I’ve read and approve it!"}
         </span>
         <button type="button" onClick={writeAnother} className="mt-2 cursor-pointer text-lg underline underline-offset-4">
           write another
