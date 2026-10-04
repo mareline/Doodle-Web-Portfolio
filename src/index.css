@@ -297,17 +297,29 @@ a:focus-visible .squiggle path {
 /* ---------- Sketchbook extras ---------- */
 
 /* Hand-drawn double frame around the bio: a firm line plus a looser second pass */
+/* Both lines and the paper sit on layers behind the content (loose line lowest), so no outline is drawn over the text */
 .bio-frame {
   position: relative;
-  background: #fdfcf8; /* clean white paper behind the text, for easy reading */
-  box-shadow: 3px 5px 0 rgb(0 0 0 / 0.07);
-  border: 2.5px solid var(--color-ink);
+  isolation: isolate;
+  border: 2.5px solid transparent; /* keeps the layout; the visible line is drawn by ::after */
   border-radius: 14px 225px 12px 255px / 255px 12px 225px 14px;
+  box-shadow: 3px 5px 0 rgb(0 0 0 / 0.07);
+}
+.bio-frame::after {
+  content: "";
+  position: absolute;
+  inset: -2.5px;
+  z-index: -1;
+  background: #fdfcf8; /* clean white paper behind the text, for easy reading */
+  border: 2.5px solid var(--color-ink);
+  border-radius: inherit;
+  pointer-events: none;
 }
 .bio-frame::before {
   content: "";
   position: absolute;
   inset: -9px 7px 6px -8px;
+  z-index: -2;
   border: 1.5px solid rgb(26 26 26 / 0.45);
   border-radius: 225px 14px 255px 12px / 12px 255px 14px 225px;
   rotate: -0.6deg;
