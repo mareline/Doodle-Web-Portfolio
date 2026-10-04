@@ -5,7 +5,7 @@ export default function SectionHeading({ children, className = "" }) {
   return (
     <Reveal
       as="h2"
-      className={`relative inline-block font-display text-wide text-[clamp(1.6rem,4.5vw,2.5rem)] leading-none font-black uppercase ${className}`}
+      className={`relative inline-block font-display text-wide text-[clamp(1.6rem,4.5vw,3.5rem)] leading-none font-black uppercase ${className}`}
     >
       {children}
       <svg

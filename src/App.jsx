@@ -2,9 +2,10 @@ import { useRef } from "react";
 import { useParallax } from "./hooks/useParallax";
 import { useSparkles } from "./hooks/useSparkles";
 import ErrorBoundary from "./components/ErrorBoundary";
-import PaperDivider from "./components/PaperDivider";
+import Page from "./components/Page";
 import PaperLayer from "./components/PaperLayer";
 import SketchFilters from "./components/SketchFilters";
+import WompWomp from "./components/WompWomp";
 import Sparkles from "./components/Sparkles";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
@@ -21,35 +22,44 @@ export default function App() {
   return (
     <>
       <SketchFilters />
+      <WompWomp />
       {/* Behind the content: crumpling paper dividers (Three.js) */}
       <ErrorBoundary name="paper">
         <PaperLayer />
       </ErrorBoundary>
 
-      <div ref={stageRef} className="relative z-10 mx-auto max-w-5xl overflow-x-clip px-4 pb-10 sm:px-8">
+      <div ref={stageRef} className="relative z-10 overflow-x-clip px-5 sm:px-10">
         <Sparkles bursts={bursts} />
         <ErrorBoundary name="nav">
           <Nav onPop={handlePop} />
         </ErrorBoundary>
-        <ErrorBoundary name="hero">
-          <Hero onPop={handlePop} />
-        </ErrorBoundary>
         <main>
-          <ErrorBoundary name="about">
-            <About onPop={handlePop} />
-          </ErrorBoundary>
-          <PaperDivider label="up next: where I’ve worked" />
-          <ErrorBoundary name="work">
-            <Work />
-          </ErrorBoundary>
-          <PaperDivider label="now, a few things I’ve made" />
-          <ErrorBoundary name="portfolio">
-            <Portfolio />
-          </ErrorBoundary>
-          <PaperDivider label="okay, let’s talk!" />
-          <ErrorBoundary name="contact">
-            <Contact />
-          </ErrorBoundary>
+          {/* Each Page fills the screen on desktop and snaps into place; its paper note crumples as you scroll on */}
+          <Page divider="scroll down ↓" wide>
+            <ErrorBoundary name="hero">
+              <Hero onPop={handlePop} />
+            </ErrorBoundary>
+          </Page>
+          <Page divider="up next: where I’ve worked">
+            <ErrorBoundary name="about">
+              <About onPop={handlePop} />
+            </ErrorBoundary>
+          </Page>
+          <Page divider="now, a few things I’ve made">
+            <ErrorBoundary name="work">
+              <Work onPop={handlePop} />
+            </ErrorBoundary>
+          </Page>
+          <Page divider="okay, let’s talk!">
+            <ErrorBoundary name="portfolio">
+              <Portfolio />
+            </ErrorBoundary>
+          </Page>
+          <Page>
+            <ErrorBoundary name="contact">
+              <Contact />
+            </ErrorBoundary>
+          </Page>
         </main>
       </div>
     </>

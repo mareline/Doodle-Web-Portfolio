@@ -1,5 +1,6 @@
 // The Work section shows two timelines, newest first. An empty list is simply skipped.
-// `highlights` is optional; leave it out to show just the title, company and dates.
+// Optional fields, shown when someone clicks the role: `note` (a short line), `highlights` (what I did),
+// `learned` (what I learned). Leave them all out to show just the title, company and dates.
 
 // Bank of America roles show title and dates only (details stay on the resume, NDA).
 export const WORK = [
@@ -7,11 +8,33 @@ export const WORK = [
     role: "Product Owner, Cloud and Data Services",
     company: "Bank of America",
     dates: "Jul 2025 – Present",
+    note: "Most of this work isn’t public, so here’s the general picture.",
+    highlights: [
+      "Product owner on enterprise cloud and AI services: I own the backlog and guide delivery from idea to release.",
+      "Built and standardized delivery roadmaps so teams know what’s coming and when.",
+      "Partner with engineers and stakeholders across the business to deliver on time.",
+      "Turn delivery data into insights that improve how the team plans and ships.",
+    ],
+    learned: [
+      "Translating technical infrastructure into business value",
+      "That clear roadmaps and documentation make everything faster",
+    ],
   },
   {
     role: "Product Intern, Enterprise Cloud Product Management",
     company: "Bank of America",
     dates: "Jun 2024 – Aug 2024",
+    note: "Most of this work isn’t public, so here’s the general picture.",
+    highlights: [
+      "Supported enterprise cloud product management, working across teams in Jira and Confluence.",
+      "Researched and presented risk-mitigation recommendations to product leadership.",
+      "Trained in Scaled Agile Framework (SAFe) product management practices.",
+    ],
+    learned: [
+      "How product management works at enterprise scale",
+      "Presenting findings clearly to leadership",
+      "Agile delivery in practice",
+    ],
   },
   {
     role: "Tech Mini-Mester Participant",

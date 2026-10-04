@@ -3,8 +3,16 @@
 // TODO: add a product case study or two here; they matter most for PM roles.
 export const PROJECTS = [
   {
+    title: "Hand-Drawn Portfolio",
+    type: "Web · 3D · 2026",
+    summary:
+      "The site you’re on! A sketchbook-style portfolio featuring my own drawings, paper that crumples as you scroll (Three.js), and a moderated message board with rate limiting and spam protection.",
+    tags: ["React", "Three.js", "Tailwind", "Netlify Functions"],
+    // href: "https://github.com/mareline/<repo-name>", // TODO: add once the repo is on GitHub
+  },
+  {
     title: "3D Web Design Portfolio",
-    type: "Web · 3D",
+    type: "Web · 3D · 2023",
     summary: "A 3D web design portfolio that showcases my projects and skills using ThreeJS and ReactJS.",
     tags: [
       "React",
@@ -22,6 +30,7 @@ export const PROJECTS = [
       "Spring Boot",
       "MySQL",
       "Postman"
-    ]
+    ],
+    href: "https://github.com/mareline/Group-19"
   }
 ];

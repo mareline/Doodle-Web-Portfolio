@@ -1,61 +1,113 @@
-# Mareline Ramirez — Product Management Portfolio
+# Mareline Ramirez · Product Management Portfolio
 
-React + Vite + Tailwind. Static site: no server, no database, no forms.
+A hand-drawn, paper-and-ink portfolio for my product management job search. I wanted a portfolio that feels like flipping through my sketchbook rather than another template: torn notebook paper, washi tape, sticky notes, and my own drawings, built with the same care I put into shipping products.
 
-## Run it
+**Live site:** _coming soon_ · **Writing:** [marelineramirez.substack.com](https://marelineramirez.substack.com) · **LinkedIn:** [linkedin.com/in/mareline](https://www.linkedin.com/in/mareline)
+
+---
+
+## What's inside
+
+| Section | What it does |
+| --- | --- |
+| **Hero** | My name "writes itself" in, the rules draw themselves, and my doodles drift gently with your cursor like layers of paper. |
+| **About me** | Who I am, what I bring, and a sticker-style toolbox of the skills I use. |
+| **Work** | Two hand-drawn timelines: professional experience, and volunteer and community work. |
+| **Portfolio** | Projects as sketched desktop folders that open into little windows, plus my two newest Substack essays as taped polaroids. |
+| **Contact** | A "write a cute msg!" note that folds into a paper airplane when sent, and a message wall of notes from visitors. |
+
+**Details I'm proud of**
+
+- **Crumpling paper (Three.js):** between sections, a torn notebook strip with a handwritten note scrunches into a paper ball and rolls away as you scroll. Scroll back up and it uncrumples.
+- **Hand-drawn cursors:** a pencil while you browse, and a magnifying glass while you "review" anything clickable.
+- **Always up to date:** my latest essays are pulled from Substack on every build, so there's nothing to update by hand.
+- **Accessible motion:** every animation turns off for visitors whose device asks for reduced motion.
+
+## Product thinking behind it
+
+- **Who it's for:** recruiters and hiring managers, who spend a minute or two on a portfolio. The most important things (role, experience, writing, contact) are reachable in one scroll, and the playful details never block the content.
+- **Constraints:** my current role is under NDA, so it shows only titles and dates. Details stay on my resume.
+- **Trade-offs:** Three.js is about 130 KB, so it loads only after the page is ready. The first load stays small, and without WebGL the page falls back to a simple "✂ cut here" line.
+- **Trust and safety:** messages on the wall are reviewed before they're public, so nothing unexpected appears on a job-search site.
+
+## Built with
+
+React 19 · Vite · Tailwind CSS v4 · Three.js · Netlify (hosting, serverless functions, Blobs storage) · Node's built-in test runner
+
+## Engineering notes
+
+- **Performance:** my full-size drawings (~10 MB) are automatically converted to web-sized WebP copies (~0.9 MB total) by [`scripts/optimize-images.mjs`](scripts/optimize-images.mjs); code-splitting (Three.js in its own chunk, loaded when the browser is idle), lazy-loaded images, a build check that flags any image over 400 KB, and long-term caching for fingerprinted assets.
+- **Security:** a strict Content Security Policy and security headers ([`public/_headers`](public/_headers)), no third-party scripts, and visitor IPs hashed before they're used for rate limiting.
+- **Message wall API** ([`netlify/lib/guestbook.mjs`](netlify/lib/guestbook.mjs)):
+  - per-visitor rate limits (3 an hour, 10 a day)
+  - atomic duplicate and double-click protection
+  - a honeypot and timing check against bots
+  - input cleaning and size limits
+  - a cap on the review queue
+  - a private review page at `/admin.html`
+- **Resilience:** each section has its own error boundary, requests time out with friendly messages, and every empty or failed state has a designed fallback.
+- **Tests:** `npm test` covers the message wall, including 50 visitors posting at the same moment.
+
+## Credits
+
+**Artwork by Mareline Ramirez.** All illustrations in [`art/`](art/) are my own drawings:
+- the butterfly, crumpled newspaper star, little stars and sitting girl
+- my framed photo (the ornate frame is hand-drawn too)
+- the sparkles, spiral, flower, lily branch and hanging lily stem
+- the crumpled-paper background texture
+
+Please don't reuse them without asking.
+
+**Elements created with Claude (Anthropic's AI).** These are drawn in code, not my illustrations:
+- the torn notebook-paper dividers that crumple into a ball (Three.js)
+- the paper-grain background texture
+- hand-drawn underlines and squiggles
+- washi tape, sticky notes and sketchy borders
+- the folder icons, project windows and timeline
+- the paper airplane, the pencil icon, and the pencil and magnifying-glass cursors
+- the click sparkles
+
+The site's code was also developed with help from [Claude Code](https://claude.com/claude-code).
+
+**Also:**
+- **Fonts:** [Archivo](https://fonts.google.com/specimen/Archivo), [Orbitron](https://fonts.google.com/specimen/Orbitron), [Allura](https://fonts.google.com/specimen/Allura), [Caveat](https://fonts.google.com/specimen/Caveat) and [DM Sans](https://fonts.google.com/specimen/DM+Sans) from Google Fonts (SIL Open Font License).
+- **Essay covers:** from my own Substack posts. Video game screenshots belong to their respective publishers.
+- **Libraries:** [Three.js](https://threejs.org), [React](https://react.dev) and [Tailwind CSS](https://tailwindcss.com) (MIT License).
+
+---
+
+## Running it yourself
 
 ```bash
-npm install      # first time only
-npm run dev      # open the link it prints; edits update live
-npm run build    # production build into dist/
+npm install        # first time only
+npm run dev        # local preview; edits update live
+npm run dev:full   # same, plus the Netlify functions (message wall)
+npm test           # message wall tests
+npm run build      # production build into dist/
 ```
 
-## Edit content
+### Editing content
 
-| What                         | Where                       |
-| ---------------------------- | --------------------------- |
-| Images / doodles             | `public/images/` (see the README inside for file names) |
-| Email + LinkedIn/Substack    | `src/data/site.js`          |
-| Work experience              | `src/data/work.js`          |
-| Projects (desktop folders)   | `src/data/projects.js`      |
-| Substack essays (2 newest)   | automatic: pulled in on every build (`npm run sync-writing` to refresh now) |
-| About me text                | `src/components/About.jsx`  |
+| What | Where |
+| --- | --- |
+| Drawings | `art/` (full-size originals; web copies are made automatically, see `src/data/images.js` for names) |
+| Email and links | `src/data/site.js` |
+| Work and volunteering | `src/data/work.js` |
+| Projects (folders) | `src/data/projects.js` |
+| Substack essays | automatic on every build (`npm run sync-writing` to refresh now) |
+| About me | `src/components/About.jsx` |
 
-Anything left empty is hidden, or shows a friendly "coming soon" note.
+Each doodle is a `<Doodle name="..." />`. Add `float`, `sway`, `depth={10}` (cursor drift) or `onPop={onPop}` (click sparkles) to change how it moves. Dividers are `<PaperDivider label="..." />` in `src/App.jsx`.
 
-## Motion knobs
+### Deploying (Netlify)
 
-Every doodle is a `<Doodle name="..." />`. Add any of these to change how it moves:
+1. Connect this repo in Netlify. Build settings come from [`netlify.toml`](netlify.toml).
+2. Under **Site configuration → Environment variables**, add:
+   - `NOTES_ADMIN_KEY`: a long random password (16+ characters) for `/admin.html`
+   - `NOTES_SALT`: any random string
+   - optionally `NOTES_AUTO_APPROVE=true` to skip review (not recommended)
+3. Point a free uptime monitor (for example [UptimeRobot](https://uptimerobot.com)) at the live URL.
 
-- `float`: gentle bob up and down
-- `boil`: outline jitters like a hand-drawn animation (best on small doodles)
-- `sway`: rocks like a plant in the breeze
-- `depth={10}`: drifts with the cursor; bigger = more, negative = opposite way
-- `onPop={onPop}`: sparkle burst on click
+---
 
-Between sections, `<PaperDivider label="..." />` in `src/App.jsx` places a torn paper strip that crumples into a ball and rolls away as you scroll (Three.js, in `src/three/paperDividers.js`). Change the label text there, or add/remove dividers.
-All motion switches off for visitors whose device is set to "reduce motion".
-
-## Message wall ("write a cute msg!")
-
-Visitors leave short notes in the Contact section. Notes wait for you to approve them, then show on the wall for everyone.
-
-- **Review notes:** open `/admin.html` on your live site and enter your admin key.
-- **Set up once** in Netlify → Site configuration → Environment variables:
-  - `NOTES_ADMIN_KEY`: a long random password, 16+ characters (let a password manager generate it).
-  - `NOTES_SALT`: any random string.
-  - Optional: `NOTES_AUTO_APPROVE` = `true` publishes notes instantly with no review (not recommended for a job-search site).
-- **Built-in protection:** 3 notes per visitor per hour (10 per day), duplicate and double-click blocking, a hidden bot trap, no links allowed, a 280-character limit, and the inbox stops accepting notes once 200 are waiting.
-- **Running locally:** `npm run dev` shows the site, but the wall can only save on Netlify. Use `npm run dev:full` to run the Netlify functions too.
-- **Tests:** `npm test` checks the wall's rules, including 50 visitors posting at once.
-
-## Deploy
-
-Recommended: **Netlify** or **Cloudflare Pages** (free). Connect this GitHub repo, set build command `npm run build` and output folder `dist`. They gzip/brotli-compress files, serve over HTTPS from a CDN, and apply `public/_headers` automatically.
-
-## Launch checklist
-
-- [ ] All images added and under ~400 KB each
-- [ ] `src/data/site.js` filled in
-- [ ] Free uptime monitor at https://uptimerobot.com pointed at your live URL (emails you if the site goes down)
-- [ ] Open the live site on your phone and click every nav link
+© Mareline Ramirez. Code may be used as a reference. Artwork and written content may not be reused without permission.

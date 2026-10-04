@@ -27,8 +27,8 @@ const MAX_WIDTH_PX = 560;
 const BALL_RADIUS = 0.085; // in strip-widths
 
 // Scroll timeline, as fractions of the viewport height measured at the strip's centre
-const START = 0.72; // flat until it rises above this line…
-const END = 0.18; // …gone by this one
+const START = 0.86; // flat while resting at the bottom of its page; crumples as soon as it starts moving up…
+const END = 0.3; // …and is gone well before it leaves the screen (page snapping moves it fast)
 const CRUMPLE_END = 0.6; // first 60% of the timeline crumples, the rest rolls it away
 
 const FOV = 30;
@@ -266,9 +266,16 @@ export function createPaperDividers(canvas, elements) {
       const centerY = rect.top + rect.height / 2;
       const target = clamp01((START * vh - centerY) / ((START - END) * vh));
       // Ease toward the scroll position so fast scrolls still animate smoothly
-      s.progress = s.progress === null ? target : s.progress + (target - s.progress) * (1 - Math.exp(-dt * 10));
+      s.progress = s.progress === null ? target : s.progress + (target - s.progress) * (1 - Math.exp(-dt * 30));
 
       const crumpleAmount = clamp01(s.progress / CRUMPLE_END);
+      const crumpling = crumpleAmount > 0.004;
+      s.roller.visible = s.shadow.visible = crumpling;
+      if (crumpling !== s.crumpling) {
+        s.crumpling = crumpling;
+        s.el.toggleAttribute("data-crumpling", crumpling);
+      }
+      if (!crumpling) continue;
       const roll = clamp01((s.progress - CRUMPLE_END) / (1 - CRUMPLE_END));
       if (Math.abs(crumpleAmount - s.lastCrumple) > 1e-4) {
         crumple(s, crumpleAmount);
@@ -298,24 +305,16 @@ export function createPaperDividers(canvas, elements) {
     drewSomething = anyVisible;
   }
 
-  function onVisibilityChange() {
-    if (document.hidden) {
-      renderer.setAnimationLoop(null);
-    } else {
-      last = performance.now();
-      renderer.setAnimationLoop(frame);
-    }
-  }
-
   window.addEventListener("resize", resize);
-  document.addEventListener("visibilitychange", onVisibilityChange);
+  // Browsers already pause animation frames in hidden tabs, so the loop never needs stopping by hand
+  // (stopping it on "hidden" could leave the paper frozen if the matching "visible" event never arrived).
+  // dt is capped, so returning to the tab doesn't make the paper jump.
   renderer.setAnimationLoop(frame);
 
   return {
     dispose() {
       renderer.setAnimationLoop(null);
       window.removeEventListener("resize", resize);
-      document.removeEventListener("visibilitychange", onVisibilityChange);
       strips.forEach((s) => s.disposables.forEach((d) => d.dispose()));
       shadowMap.dispose();
       renderer.dispose();

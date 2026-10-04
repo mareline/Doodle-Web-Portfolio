@@ -18,7 +18,14 @@ export async function request(path, { headers, ...options } = {}) {
   }
 
   const data = await response.json().catch(() => null);
-  if (!response.ok || data === null) throw new Error(data?.error ?? "Something went wrong. Please try again.");
+  if (data === null || response.status === 404) {
+    throw new Error(
+      import.meta.env.DEV
+        ? "The message board only works on the live site (or with `npm run dev:full`)."
+        : "The message board is taking a nap. Please try again later!"
+    );
+  }
+  if (!response.ok) throw new Error(data.error ?? "Something went wrong. Please try again.");
   return data;
 }
 

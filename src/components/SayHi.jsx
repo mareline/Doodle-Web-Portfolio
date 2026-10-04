@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Doodle from "./Doodle";
 import Note from "./Note";
 import Reveal from "./Reveal";
 import { fetchNotes, sendNote } from "../lib/notesApi";
@@ -173,37 +174,44 @@ function MessageForm({ onSent }) {
 function MessageWall({ notes, status }) {
   const [visible, setVisible] = useState(WALL_PAGE);
 
-  if (status === "error") return null; // the form still works; the wall just stays hidden
   const remaining = notes.length - visible;
 
   return (
-    <div className="mt-16">
-      <h3 className="-rotate-1 font-hand text-3xl">the message wall ♡</h3>
+    <div className="relative pt-4">
+      <Reveal as="ul" className="relative z-10 grid items-start gap-x-6 gap-y-8 sm:grid-cols-2">
+        {/* The board's title, pinned up like everyone else's notes */}
+        <li className="taped sketch-border relative -rotate-2 bg-card px-5 pt-7 pb-5 text-center shadow-[3px_4px_0_rgba(0,0,0,0.08)]">
+          <h3 className="font-hand text-4xl leading-none">Message Bulletin Board!</h3>
+          <p className="mt-2 font-hand text-lg opacity-70">notes from visitors ♡</p>
+        </li>
 
-      {status === "loading" && <p className="mt-4 animate-pulse font-hand text-xl opacity-60">pinning up notes…</p>}
-      {status === "ready" && notes.length === 0 && (
-        <p className="mt-4 font-hand text-xl opacity-70">no messages yet. be the first! ✎</p>
-      )}
+        {status === "loading" && (
+          <li className="self-center animate-pulse text-center font-hand text-xl opacity-60">pinning up notes…</li>
+        )}
 
-      {notes.length > 0 && (
-        <Reveal as="ul" className="mt-8 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-          {notes.slice(0, visible).map((note, i) => (
-            <li
-              key={note.id}
-              style={{ animationDelay: `${(i % WALL_PAGE) * 90}ms` }}
-              className={`note-pop taped sketch-border relative bg-card px-4 pt-6 pb-3 font-hand text-xl leading-snug shadow-[3px_4px_0_rgba(0,0,0,0.08)] ${
-                NOTE_TILTS[i % NOTE_TILTS.length]
-              }`}
-            >
-              <p>“{note.message}”</p>
-              <p className="mt-1 text-right text-lg opacity-70">— {note.name}</p>
-              {note.mine && (
-                <p className="mt-1 text-right font-body text-[11px] opacity-60">only you can see this until I approve it</p>
-              )}
-            </li>
-          ))}
-        </Reveal>
-      )}
+        {/* Little sticker inviting the first note */}
+        {status === "ready" && notes.length === 0 && (
+          <li className="note-pop relative mt-6 w-fit justify-self-center rotate-3 rounded-[255px_15px_225px_15px/15px_225px_15px_255px] border-[2.5px] border-dashed border-ink bg-white/80 px-5 py-3 font-hand text-2xl whitespace-nowrap shadow-[2px_3px_0_rgba(0,0,0,0.1)] sm:justify-self-start">
+            be the first to leave a note!&nbsp;✎
+          </li>
+        )}
+
+        {notes.slice(0, visible).map((note, i) => (
+          <li
+            key={note.id}
+            style={{ animationDelay: `${(i % WALL_PAGE) * 90}ms` }}
+            className={`note-pop taped sketch-border relative bg-card px-4 pt-6 pb-3 font-hand text-xl leading-snug shadow-[3px_4px_0_rgba(0,0,0,0.08)] ${
+              NOTE_TILTS[i % NOTE_TILTS.length]
+            }`}
+          >
+            <p>“{note.message}”</p>
+            <p className="mt-1 text-right text-lg opacity-70">— {note.name}</p>
+            {note.mine && (
+              <p className="mt-1 text-right font-body text-[11px] opacity-60">only you can see this until I approve it</p>
+            )}
+          </li>
+        ))}
+      </Reveal>
 
       {remaining > 0 && (
         <button
@@ -226,7 +234,7 @@ export default function SayHi({ children }) {
     let active = true;
     fetchNotes()
       .then((notes) => active && setWall({ status: "ready", notes }))
-      .catch(() => active && setWall({ status: "error", notes: [] }));
+      .catch(() => active && setWall({ status: "ready", notes: [] }));
     return () => {
       active = false;
     };
@@ -235,18 +243,25 @@ export default function SayHi({ children }) {
   // Pop the sender's own note onto the wall straight away
   function addOwnNote(note, status) {
     setWall((current) => ({
-      status: current.status === "error" ? "ready" : current.status,
+      status: current.status,
       notes: [{ ...note, mine: status !== "approved" }, ...current.notes.filter((n) => n.id !== note.id)],
     }));
   }
 
   return (
-    <>
-      <div className="mt-10 grid items-start gap-12 md:grid-cols-2">
-        <div>{children}</div>
-        <MessageForm onSent={addOwnNote} />
+    // Left: your contact details with the message form under them. Right: the lily-framed bulletin board.
+    <div className="mt-10 grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+      <div>
+        {children}
+        {/* Your lily branch curls around the bottom-left of the note */}
+        <div className="relative mt-10 px-6 pt-12 pb-16 sm:px-12">
+          <Doodle name="lilies" sway className="pointer-events-none absolute bottom-0 -left-4 z-0 w-[80%] max-w-xl" />
+          <div className="relative z-10">
+            <MessageForm onSent={addOwnNote} />
+          </div>
+        </div>
       </div>
       <MessageWall notes={wall.notes} status={wall.status} />
-    </>
+    </div>
   );
 }

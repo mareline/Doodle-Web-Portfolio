@@ -2,7 +2,8 @@
 export const SUBSTACK_URL = "https://marelineramirez.substack.com";
 
 export const SITE = {
-  email: "", // TODO: e.g. "hello@yourdomain.com"
+  // Kept in two pieces and only joined when someone clicks "email me", so the address never sits on the page.
+  emailParts: ["mrami204", "fiu.edu"],
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/mareline" },
     { label: "Substack", href: SUBSTACK_URL },

@@ -1,11 +1,10 @@
-// A spot between sections where a torn paper strip sits; <PaperLayer> crumples it as you scroll.
-// The dashed "cut here" line is what shows when the 3D version isn't running.
+// A torn notebook-paper strip between pages. While it's flat it's ordinary page content, so it scrolls in perfect
+// step with the page; <PaperLayer> swaps in a 3D copy only once it starts crumpling (data-crumpling is set then).
 export default function PaperDivider({ label }) {
   return (
-    <div data-paper-divider={label} aria-hidden="true" className="grid h-[clamp(120px,18vw,180px)] place-items-center">
-      <p className="divider-fallback flex -rotate-1 items-center gap-3 font-hand text-2xl opacity-80">
-        <span>✂</span>
-        <span className="border-b-2 border-dashed border-ink/50 px-6 pb-1">{label}</span>
+    <div data-paper-divider={label} aria-hidden="true" className="grid h-[clamp(120px,18vw,180px)] place-items-center lg:h-[136px]">
+      <p className="divider-paper notepad grid aspect-[5.5] w-[min(80%,560px)] place-items-center pt-1 font-hand text-[clamp(1.2rem,2.6vw,2rem)]">
+        {label}
       </p>
     </div>
   );
