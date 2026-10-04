@@ -6,7 +6,6 @@ A hand-drawn, paper-and-ink portfolio. I wanted a portfolio that feels like flip
 
 ## What's inside
 
-| Section | What it does |
 | **Portfolio** | Projects as sketched desktop folders that open into little windows, plus my two newest Substack essays as taped polaroids. |
 | **Contact** | A "write a cute msg!" note that folds into a paper airplane when sent, and a message wall of notes from visitors. |
 
