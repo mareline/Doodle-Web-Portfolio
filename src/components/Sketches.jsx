@@ -1,5 +1,4 @@
-// Little ink sketches drawn in code (pencils, pencil marks, a coffee mug) to decorate the sketchbook pages.
-// All are decorative: hidden from screen readers and click-through.
+
 
 const ink = { fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round" };
 
@@ -17,6 +16,17 @@ export function Pencil({ className = "" }) {
       <path d="M40 6 L8 17 L40 28" fill="#e4dfd2" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M8 17 L19 13.3 L19 20.7 Z" fill="currentColor" />
       <path d="M40 6 Q34 12 40 17 Q34 22 40 28" {...ink} strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+// A paperclip: one bent wire, inked outline with a silver middle
+export function PaperClip({ className = "" }) {
+  const wire = "M11 24 V52 a4 4 0 0 0 8 0 V14 a7.5 7.5 0 0 0 -15 0 V56 a10.5 10.5 0 0 0 21 0 V26";
+  return (
+    <svg aria-hidden="true" viewBox="0 0 29 72" className={`pointer-events-none text-ink ${className}`} {...ink}>
+      <path d={wire} strokeWidth="4.6" />
+      <path d={wire} stroke="#d9d7d1" strokeWidth="2" />
     </svg>
   );
 }

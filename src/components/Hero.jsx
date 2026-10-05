@@ -1,8 +1,7 @@
 import Doodle from "./Doodle";
 import TalkingFigure from "./TalkingFigure";
 
-// Big title page. The title block is centred on the page, and every doodle is pinned to the title itself,
-// so the whole composition stays balanced at any screen size. The girl sits on top of the title like a sticker.
+
 export default function Hero({ onPop }) {
   return (
     <header className="relative flex justify-center py-14 sm:py-20 lg:py-24">

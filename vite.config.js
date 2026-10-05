@@ -10,8 +10,13 @@ export default defineConfig({
     // Three.js (the paper dividers) is a separate chunk that only loads after the page is ready.
     chunkSizeWarningLimit: 600,
     rollupOptions: {
-      // The site, plus the private notes inbox at /admin.html
-      input: { main: "index.html", admin: "admin.html" },
+      // The site, the private notes inbox at /admin.html, and project case studies under /projects/
+      input: {
+        main: "index.html",
+        admin: "admin.html",
+        heroShooter: "projects/hero-shooter-llm.html",
+        portfolio: "projects/hand-drawn-portfolio.html",
+      },
     },
   },
 });

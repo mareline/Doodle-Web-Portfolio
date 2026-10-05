@@ -1,7 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-
-// Playful "no peeking" note: right-clicking (or the usual inspect shortcuts) shows a "womp womp" pop-up
-// with a button back to the site. This is just for fun; it can't truly stop anyone from viewing the code.
 export default function WompWomp() {
   const [open, setOpen] = useState(false);
   const dialogRef = useRef(null);

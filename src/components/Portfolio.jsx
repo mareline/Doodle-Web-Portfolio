@@ -4,7 +4,7 @@ import Note from "./Note";
 import Reveal from "./Reveal";
 import SafeImage from "./SafeImage";
 import SectionHeading from "./SectionHeading";
-import { Pencil, PencilMarks } from "./Sketches";
+import { PaperClip, Pencil, PencilMarks } from "./Sketches";
 import { PROJECTS } from "../data/projects";
 import { SUBSTACK_URL } from "../data/site";
 import WRITING from "../data/writing.json";
@@ -23,10 +23,12 @@ const PROJECT_ITEMS = PROJECTS.map((project) => ({
   summary: project.summary,
   tags: project.tags,
   href: project.href,
-  cta: "open it →",
+  caseStudy: project.caseStudy,
+  cta: project.caseStudy ? "view the code →" : "open it →",
 }));
 
 const POSTS = WRITING.slice(0, LATEST_POSTS);
+const CASE_STUDIES = PROJECTS.filter((project) => project.caseStudy);
 
 function FolderIcon() {
   return (
@@ -112,6 +114,40 @@ function PostCard({ post, tilt }) {
   );
 }
 
+// Ruled notebook lines for the case study papers
+const RULED = {
+  backgroundImage: "repeating-linear-gradient(transparent 0 calc(1.5rem - 1px), rgb(26 26 26 / 0.1) calc(1.5rem - 1px) 1.5rem)",
+  backgroundPosition: "0 1.1rem",
+};
+
+// Case studies shelf: a manila folder with a paperclipped sheet sliding out of it (further out on hover).
+// The folder's front pocket hides the bottom of the sheet and carries the "read" label.
+function CaseStudyCard({ project, tilt }) {
+  return (
+    <a href={project.caseStudy} className={`group relative block h-full pt-5 text-ink no-underline ${tilt}`}>
+      {/* back of the folder, with its tab */}
+      <span aria-hidden="true" className="absolute top-[2.6rem] left-5 h-6 w-24 rounded-t-lg border-[2.5px] border-b-0 border-ink bg-card" />
+      <span aria-hidden="true" className="absolute inset-x-0 top-16 bottom-0 rounded-md border-[2.5px] border-ink bg-card shadow-[3px_4px_0_rgba(0,0,0,0.08)]" />
+
+      {/* the sheet */}
+      <div
+        style={RULED}
+        className="relative z-10 mx-4 -rotate-[1.5deg] border-2 border-ink/80 bg-[#fdfcf8] px-4 pt-5 pb-20 shadow-[1px_2px_0_rgba(0,0,0,0.08)] transition-transform duration-300 ease-out group-hover:-translate-y-3 group-hover:-rotate-[3deg] group-focus-visible:-translate-y-3 motion-reduce:transition-none"
+      >
+        <PaperClip className="absolute -top-6 right-7 w-5 rotate-[10deg]" />
+        <p className="font-nav text-[10px] tracking-widest uppercase">Case study · {project.type}</p>
+        <h4 className="mt-1 text-lg leading-snug font-bold">{project.title}</h4>
+        <p className="mt-2 text-sm leading-relaxed">{project.teaser}</p>
+      </div>
+
+      {/* front pocket of the folder */}
+      <span className="absolute inset-x-0 bottom-0 z-20 flex h-[4.25rem] items-center rounded-b-md border-[2.5px] border-ink bg-[#e4dfd2] px-5">
+        <span className="font-hand text-2xl group-hover:underline group-hover:underline-offset-4">read the case study →</span>
+      </span>
+    </a>
+  );
+}
+
 // A hand-drawn "window" that opens when you click a folder
 function DesktopWindow({ item, onClose }) {
   const dialogRef = useRef(null);
@@ -149,11 +185,18 @@ function DesktopWindow({ item, onClose }) {
             <h4 id="desk-window-title" className="mt-1 text-xl leading-snug font-bold">{item.title}</h4>
             {item.summary && <p className="mt-3 text-[15px] leading-relaxed xl:text-[17px]">{item.summary}</p>}
             {item.tags?.length > 0 && <p className="mt-3 font-hand text-xl opacity-80">{item.tags.join(" · ")}</p>}
-            {item.href && (
-              <p className="mt-4">
-                <InkLink href={item.href} external className="font-hand text-2xl">
-                  {item.cta}
-                </InkLink>
+            {(item.caseStudy || item.href) && (
+              <p className="mt-4 flex flex-wrap gap-x-8 gap-y-2">
+                {item.caseStudy && (
+                  <InkLink href={item.caseStudy} className="font-hand text-2xl">
+                    read the case study →
+                  </InkLink>
+                )}
+                {item.href && (
+                  <InkLink href={item.href} external className="font-hand text-2xl">
+                    {item.cta}
+                  </InkLink>
+                )}
               </p>
             )}
           </div>
@@ -177,10 +220,26 @@ export default function Portfolio() {
         <div className="flex flex-col">
           <h3 className={shelfHeading}>Projects</h3>
           <p className="mt-2 max-w-prose text-[15px] leading-relaxed xl:text-[17px]">
-            Things I’ve designed and built: interactive 3D websites like this sketchbook, plus backend and full-stack
-            coursework in Java and SQL.
+            Things I’ve designed and built: an LLM pipeline for analyzing player reviews, interactive 3D websites like this
+            sketchbook, plus backend and full-stack coursework in Java and SQL.
           </p>
           <Desktop items={PROJECT_ITEMS} empty="Case studies are being written up. Check back soon!" onOpen={setOpenItem} />
+          {/* Case studies sit right under the project folders */}
+          {CASE_STUDIES.length > 0 && (
+            <div id="case-studies" className="mt-4 scroll-mt-32">
+              <div className="flex flex-wrap items-baseline gap-x-4">
+                <h3 className={shelfHeading}>Case studies</h3>
+                <span className="font-hand text-lg opacity-60">the full story: problem, requirements, workflow and what went wrong</span>
+              </div>
+              <ul className="mt-8 grid gap-10 sm:grid-cols-2">
+                {CASE_STUDIES.map((project, i) => (
+                  <Reveal as="li" key={project.caseStudy} delay={i * 120}>
+                    <CaseStudyCard project={project} tilt={CARD_TILTS[i % CARD_TILTS.length]} />
+                  </Reveal>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div>

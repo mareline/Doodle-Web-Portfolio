@@ -1,8 +1,6 @@
 import { useEffect, useRef } from "react";
 
-// A scrap of notebook paper, ripped on every side, with a note written in pencil. As you scroll on to the
-// next page, an eraser sweeps across and rubs the writing away. It's plain HTML/CSS driven by one cheap
-// scroll listener (no 3D), so it stays smooth even when scrolling fast.
+
 export default function PaperDivider({ label }) {
   const ref = useRef(null);
 
@@ -15,8 +13,7 @@ export default function PaperDivider({ label }) {
     let shown = 0; // what the eraser currently shows
     let target = 0; // where the scroll position says it should be
 
-    // The eraser glides toward the scroll position at a steady, unhurried pace (~1.2s for a full sweep),
-    // so even a fast scroll or a page snap shows the writing being rubbed out instead of vanishing.
+    
     const step = () => {
       const diff = target - shown;
       // scrolling on: an eraser rubs the note out · scrolling back up: a pencil writes it back in

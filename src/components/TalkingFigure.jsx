@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Doodle from "./Doodle";
 
-// Things she says, one per click. The first line always shows on load; the rest come in a shuffled order
-// so they don't repeat until all of them have been seen. Add, remove or edit freely!
+// Things she says
 const FIRST_LINE = "hey there!";
 const LINES = [
   "thanks for visiting!",
@@ -72,8 +71,7 @@ const shuffle = (list) => {
   return copy;
 };
 
-// The sitting girl on the title page, with a hand-drawn speech bubble underneath her.
-// She says hi once the page has loaded, then says something new each time she's clicked.
+
 export default function TalkingFigure({ onPop, className = "" }) {
   const [line, setLine] = useState(null);
   const queue = useRef([]);

@@ -78,7 +78,7 @@ export const VOLUNTEER = [
     highlights: [
       "Partnered with the director of Break Through Tech Miami to implement a lesson plan for 25–45 FIU students of marginalized genders to introduce them to coding.",
       "Helped students build apps with MIT Media Lab tools, make music with Python, explore AI, and create a face portfolio in JavaScript.",
-      "Provided frequent feedback to foster a welcoming environment of open communication and interest in technology.",
+      "Provided frequent feedback to build a welcoming environment of open communication and interest in technology.",
     ],
   },
   {
